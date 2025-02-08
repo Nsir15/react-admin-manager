@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "build:stag": "tsc -b && vite build --mode stag",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"

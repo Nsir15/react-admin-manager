@@ -1,8 +1,13 @@
 import { hideLoading, showLoading } from '@/components/Loading';
 import axios from 'axios';
 
+console.log(import.meta.env);
+
+const env = import.meta.env;
+
 const instance = axios.create({
-  baseURL: 'http://localhost:3000',
+  // baseURL: 'http://localhost:3000',
+  baseURL: env.BASE_URL || 'http://localhost:3000',
   timeout: 3000,
   timeoutErrorMessage: '请求超时，请待会儿再试',
   withCredentials: true
@@ -15,6 +20,13 @@ instance.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
+    if (env.VITE_MOCK === 'true') {
+      config.baseURL = env.VITE_MOCK_API;
+    } else {
+      config.baseURL = env.BASE_URL;
+    }
+
     return config;
   },
   error => {
@@ -33,10 +45,10 @@ instance.interceptors.response.use(
   }
 );
 
-const get = (url: string, params: Record<string, any>) => {
+const get = <T>(url: string, params: Record<string, any>): Promise<T> => {
   return instance.get(url, { params });
 };
-const post = (url: string, params: Record<string, any>) => {
+const post = <T>(url: string, params: Record<string, any>): Promise<T> => {
   return instance.post(url, params);
 };
 
