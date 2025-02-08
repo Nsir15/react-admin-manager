@@ -1,5 +1,6 @@
 import { FC, memo } from 'react';
 import { Spin } from 'antd';
+import './loading.scss';
 
 interface IProps {
   tip?: string;
