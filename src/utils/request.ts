@@ -1,13 +1,12 @@
 import { hideLoading, showLoading } from '@/components/Loading';
+import envConfig from '@/config';
 import axios from 'axios';
 
-console.log(import.meta.env);
-
-const env = import.meta.env;
+console.log('config:', envConfig);
 
 const instance = axios.create({
   // baseURL: 'http://localhost:3000',
-  baseURL: env.BASE_URL || 'http://localhost:3000',
+  baseURL: envConfig.baseApi,
   timeout: 3000,
   timeoutErrorMessage: '请求超时，请待会儿再试',
   withCredentials: true
@@ -21,10 +20,10 @@ instance.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    if (env.VITE_MOCK === 'true') {
-      config.baseURL = env.VITE_MOCK_API;
+    if (envConfig.mock === true) {
+      config.baseURL = envConfig.mockApi;
     } else {
-      config.baseURL = env.BASE_URL;
+      config.baseURL = envConfig.baseApi;
     }
 
     return config;
