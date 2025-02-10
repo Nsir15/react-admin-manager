@@ -1,44 +1,40 @@
-import { FC, memo, useEffect } from 'react';
-import request from '@/utils/request';
-import styles from './index.module.scss';
-import { Input, Checkbox, Button, Form } from 'antd';
+import { FC, memo } from "react"
+import styles from "./index.module.scss"
+import { Input, Button, Form, App } from "antd"
+import { loginRequest } from "@/api"
+import { Login } from "@/types/api"
+import { wrapperRequest } from "@/utils"
 
 interface IProps {}
 
 type FieldType = {
-  username?: string;
-  password?: string;
-};
+  username?: string
+  password?: string
+}
 
 const layout = {
   labelCol: { span: 6 },
   wrapperCol: { span: 18 }
-};
+}
 
 const Component: FC<IProps> = props => {
-  // const {} = props
+  const { message } = App.useApp()
 
-  const login = () => {
-    request
-      .post('/login', {
-        username: 'admin',
-        password: '123456'
-      })
-      .then(res => {
-        console.log('login res:', res);
-      });
-  };
+  const onFinish = async (values: Login.LoginParams) => {
+    // console.log("onLogin:", values)
+    const [error, data] = await wrapperRequest(loginRequest(values))
+    console.log("login data:", data)
+    console.log("login error:", error)
 
-  const onFinish = () => {};
-
-  useEffect(() => {
-    login();
-  }, []);
+    if (!error) {
+      message.success("登录成功")
+    }
+  }
 
   return (
     <div className={styles.login}>
-      <div className={styles['login-wrapper']}>
-        <h1 className={styles['login-title']}>系统登录</h1>
+      <div className={styles["login-wrapper"]}>
+        <h1 className={styles["login-title"]}>系统登录</h1>
         <Form
           name='basic'
           {...layout}
@@ -63,7 +59,7 @@ const Component: FC<IProps> = props => {
         </Form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default memo(Component);
+export default memo(Component)

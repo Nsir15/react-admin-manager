@@ -15,8 +15,17 @@ export function formatMoneyNumber(number: number | string) {
   // return strNum.toLocaleString('zh-CN', { style: 'currency', currency: 'CNY', minimumFractionDigits: decimalsCount });
 
   // 使用正则的方式
-  const regex = /(\d)(?=(\d{3})+$)/g;
-  const parts = number.toString().split('.');
-  parts[0] = parts[0].replace(regex, '$1,');
-  return '¥' + parts.join('.');
+  const regex = /(\d)(?=(\d{3})+$)/g
+  const parts = number.toString().split(".")
+  parts[0] = parts[0].replace(regex, "$1,")
+  return "¥" + parts.join(".")
+}
+
+export async function wrapperRequest(request: Promise<any>) {
+  try {
+    const data = await request
+    return [null, data]
+  } catch (error) {
+    return [error]
+  }
 }
