@@ -21,11 +21,11 @@ export function formatMoneyNumber(number: number | string) {
   return "¥" + parts.join(".")
 }
 
-export async function wrapperRequest(request: Promise<any>) {
+export async function wrapperRequest<T, U = any>(request: Promise<T>): Promise<[U | null, T | null]> {
   try {
     const data = await request
     return [null, data]
   } catch (error) {
-    return [error]
+    return [error as U, null]
   }
 }

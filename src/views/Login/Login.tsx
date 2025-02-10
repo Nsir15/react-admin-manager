@@ -4,6 +4,7 @@ import { Input, Button, Form, App } from "antd"
 import { loginRequest } from "@/api"
 import { Login } from "@/types/api"
 import { wrapperRequest } from "@/utils"
+import Storage from "@/utils/storage"
 
 interface IProps {}
 
@@ -22,12 +23,17 @@ const Component: FC<IProps> = props => {
 
   const onFinish = async (values: Login.LoginParams) => {
     // console.log("onLogin:", values)
-    const [error, data] = await wrapperRequest(loginRequest(values))
-    console.log("login data:", data)
-    console.log("login error:", error)
+    const [error, data] = await wrapperRequest<Login.LoginVo>(loginRequest(values))
+    // console.log("login data:", data)
+    // console.log("login error:", error)
 
     if (!error) {
+      const params = new URLSearchParams(location.search)
       message.success("登录成功")
+      Storage.set("token", data!.accessToken)
+      setTimeout(() => {
+        location.href = params.get("callback") || "/"
+      })
     }
   }
 
