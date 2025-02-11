@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate, RouteObject } from "react-router-dom"
 import Login from "@/views/Login/Login"
 import NotFound404 from "@/views/NotFound404/404"
 import Layout from "@/layout"
+import User from "@/views/system/user"
 
 const routes: RouteObject[] = [
   {
@@ -14,6 +15,10 @@ const routes: RouteObject[] = [
       {
         path: "welcome",
         element: <div>Welcome</div>
+      },
+      {
+        path: "userList",
+        element: <User />
       }
     ]
   },

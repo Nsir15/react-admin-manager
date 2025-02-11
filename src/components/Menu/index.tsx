@@ -1,7 +1,7 @@
 import React, { FC, memo } from "react"
 import styles from "./index.module.scss"
 import { Menu } from "antd"
-import { UserOutlined, VideoCameraOutlined, UploadOutlined } from "@ant-design/icons"
+import { UserOutlined, VideoCameraOutlined, UploadOutlined, SettingOutlined } from "@ant-design/icons"
 import useStore from "@/store"
 
 interface IProps {}
@@ -22,8 +22,15 @@ const Component: FC<IProps> = props => {
         items={[
           {
             key: "1",
-            icon: <UserOutlined />,
-            label: "nav 1"
+            icon: <SettingOutlined />,
+            label: "系统设置",
+            children: [
+              {
+                key: "1-1",
+                icon: <UserOutlined />,
+                label: "用户列表"
+              }
+            ]
           },
           {
             key: "2",
