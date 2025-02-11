@@ -1,27 +1,37 @@
-import { Navigate, useRoutes } from 'react-router-dom';
-import Login from '@/views/Login/Login';
-import NotFound404 from '@/views/NotFound404/404';
+import { createBrowserRouter, Navigate, RouteObject } from "react-router-dom"
+import Login from "@/views/Login/Login"
+import NotFound404 from "@/views/NotFound404/404"
+import Layout from "@/layout"
 
-const routes = [
+const routes: RouteObject[] = [
   {
-    path: '/',
-    element: <h1>Home</h1>
+    path: "/",
+    element: <Navigate to={"/welcome"}></Navigate>
   },
   {
-    path: '/login',
+    element: <Layout></Layout>,
+    children: [
+      {
+        path: "welcome",
+        element: <div>Welcome</div>
+      }
+    ]
+  },
+  {
+    path: "/login",
     element: <Login></Login>
   },
   {
-    path: '*',
-    element: <Navigate to={'/404'} />
+    path: "*",
+    element: <Navigate to={"/404"} />
   },
   {
-    path: '404',
+    path: "404",
     element: <NotFound404 />
   }
-];
+]
 
-// export default createBrowserRouter(routes);
-export default function Router() {
-  return useRoutes(routes);
-}
+export default createBrowserRouter(routes)
+// export default function Router() {
+//   return useRoutes(routes)
+// }
