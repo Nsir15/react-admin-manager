@@ -3,6 +3,7 @@ import Login from "@/views/Login/Login"
 import NotFound404 from "@/views/NotFound404/404"
 import Layout from "@/layout"
 import User from "@/views/system/user"
+import Menu from "@/views/system/menu"
 
 const routes: RouteObject[] = [
   {
@@ -19,6 +20,10 @@ const routes: RouteObject[] = [
       {
         path: "userList",
         element: <User />
+      },
+      {
+        path: "menuList",
+        element: <Menu />
       }
     ]
   },

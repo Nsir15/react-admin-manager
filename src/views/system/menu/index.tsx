@@ -1,9 +1,10 @@
-import React, { FC, memo, useEffect, useRef } from "react"
-import styles from "./index.module.scss"
-import { useForm } from "antd/es/form/Form"
-import { Button, Form, Input, Popconfirm, Space, Table, TableProps, Tag } from "antd"
-import CreateUser, { IRef } from "./createUser"
-import SearchForm from "@/components/SearchForm"
+import { FC, memo } from "react"
+import { ISearchFormItem } from "@/components/SearchForm"
+import { Form, Space, Table, Tag, TableProps, Popconfirm } from "antd"
+import { useAntdTable } from "ahooks"
+import { TableResult } from "@/types/api"
+import request from "@/utils/request"
+import PageTable, { ITableAction } from "@/components/PageTable"
 
 interface IProps {}
 
@@ -41,9 +42,47 @@ const data: DataType[] = [
 
 const Component: FC<IProps> = props => {
   // const {} = props
+  const [form] = Form.useForm()
 
-  const modalRef = useRef<IRef>(null)
-  const [form] = useForm()
+  const fetchTableData = (
+    { current, pageSize }: { current: number; pageSize: number },
+    formData: Object
+  ): Promise<TableResult<any>> => {
+    return request.get("/sys/menu/list", {
+      current,
+      pageSize,
+      ...formData
+    })
+  }
+
+  const handleDelete = () => {}
+  const handleCreate = () => {}
+
+  const searchFields: ISearchFormItem[] = [
+    {
+      type: "input",
+      label: "菜单名称",
+      name: "userName",
+      placeholder: "请输入菜单名称"
+    },
+    {
+      type: "select",
+      label: "菜单状态",
+      name: "menuState"
+    }
+  ]
+
+  const tableActions: ITableAction[] = [
+    {
+      title: "新增",
+      type: "primary",
+      onClick: handleCreate
+    },
+    {
+      title: "批量删除",
+      danger: true
+    }
+  ]
 
   const columns: TableProps<DataType>["columns"] = [
     {
@@ -102,47 +141,25 @@ const Component: FC<IProps> = props => {
     }
   ]
 
-  const queryData = () => {}
-
-  const handleSubmit = () => {}
-  const handleReset = () => {}
-  const handleCreate = () => {
-    modalRef.current?.open("create")
-  }
-  const handleDelete = () => {}
-
-  // TODO 后面使用 ahooks 的 useAntdTable 来请求数据
-  useEffect(() => {
-    queryData()
-  }, [])
+  const { tableProps, search } = useAntdTable(fetchTableData, {
+    defaultPageSize: 10,
+    form
+  })
 
   return (
-    <div className={styles.userList}>
-      <div className={"searchForm"}>
-        <SearchForm form={form} initialValues={{}}>
-          <Form.Item label='Field A'>
-            <Input placeholder='input placeholder' />
-          </Form.Item>
-          <Form.Item label='Field B'>
-            <Input placeholder='input placeholder' />
-          </Form.Item>
-        </SearchForm>
-      </div>
-      <div className='baseTable'>
-        <div className='tableHeader'>
-          <div className='table-title'>用户列表</div>
-          <div className='table-actions'>
-            <Button type='primary' onClick={handleCreate}>
-              新增
-            </Button>
-            <Button type='primary' danger>
-              批量删除
-            </Button>
-          </div>
-        </div>
-        <Table<DataType> columns={columns} dataSource={data} />
-      </div>
-      <CreateUser ref={modalRef} />
+    <div>
+      <PageTable
+        searchFormProps={{
+          form,
+          searchFields,
+          formInitialValues: {},
+          onReset: search.reset,
+          onSubmit: search.submit
+        }}
+        tableActions={tableActions}
+      >
+        <Table<DataType> rowKey='email' columns={columns} {...tableProps} />
+      </PageTable>
     </div>
   )
 }

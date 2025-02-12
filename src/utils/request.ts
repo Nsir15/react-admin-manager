@@ -12,7 +12,6 @@ interface IConfig {
 }
 
 const instance = axios.create({
-  // baseURL: 'http://localhost:3000',
   baseURL: envConfig.baseApi,
   timeout: 3000,
   timeoutErrorMessage: "请求超时，请待会儿再试"
