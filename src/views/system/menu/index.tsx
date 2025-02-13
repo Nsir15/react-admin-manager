@@ -1,62 +1,17 @@
 import { FC, memo } from "react"
 import { ISearchFormItem } from "@/components/SearchForm"
-import { Form, Space, Table, Tag, TableProps, Popconfirm } from "antd"
+import { Form, Space, Table, TableProps, Button } from "antd"
 import { useAntdTable } from "ahooks"
-import { TableResult } from "@/types/api"
+import { System, TableResult } from "@/types/api"
 import request from "@/utils/request"
 import PageTable, { ITableAction } from "@/components/PageTable"
+import { formatDate } from "@/utils"
 
 interface IProps {}
-
-interface DataType {
-  key: string
-  name: string
-  age: number
-  address: string
-  tags: string[]
-}
-
-const data: DataType[] = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"]
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"]
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sydney No. 1 Lake Park",
-    tags: ["cool", "teacher"]
-  }
-]
 
 const Component: FC<IProps> = props => {
   // const {} = props
   const [form] = Form.useForm()
-
-  const fetchTableData = (
-    { current, pageSize }: { current: number; pageSize: number },
-    formData: Object
-  ): Promise<TableResult<any>> => {
-    return request.get("/sys/menu/list", {
-      current,
-      pageSize,
-      ...formData
-    })
-  }
-
-  const handleDelete = () => {}
-  const handleCreate = () => {}
 
   const searchFields: ISearchFormItem[] = [
     {
@@ -68,9 +23,33 @@ const Component: FC<IProps> = props => {
     {
       type: "select",
       label: "菜单状态",
-      name: "menuState"
+      name: "menuState",
+      options: [
+        {
+          label: "正常",
+          value: 1
+        },
+        {
+          label: "停用",
+          value: 2
+        }
+      ]
     }
   ]
+
+  const fetchTableData = (
+    { current, pageSize }: { current: number; pageSize: number },
+    formData: Object
+  ): Promise<TableResult<System.IMenuItem>> => {
+    return request.get("/sys/menu/list", {
+      current,
+      pageSize,
+      ...formData
+    })
+  }
+
+  const handleDelete = (record: System.IMenuItem) => {}
+  const handleCreate = () => {}
 
   const tableActions: ITableAction[] = [
     {
@@ -84,60 +63,74 @@ const Component: FC<IProps> = props => {
     }
   ]
 
-  const columns: TableProps<DataType>["columns"] = [
+  const handleSubCreate = (record: System.IMenuItem) => {}
+  const handleEdit = (record: System.IMenuItem) => {}
+
+  const columns: TableProps<System.IMenuItem>["columns"] = [
     {
-      title: "姓名",
-      dataIndex: "name",
-      key: "name",
-      render: text => <a>{text}</a>
+      title: "菜单名称",
+      dataIndex: "menuName",
+      key: "menuName"
     },
     {
-      title: "年龄",
-      dataIndex: "age",
-      key: "age"
+      title: "菜单图标",
+      dataIndex: "icon",
+      key: "icon"
     },
     {
-      title: "地址",
-      dataIndex: "address",
-      key: "address"
+      title: "菜单类型",
+      dataIndex: "menuType",
+      key: "menuType",
+      render(menuType: number) {
+        return {
+          1: "菜单",
+          2: "按钮",
+          3: "页面"
+        }[menuType]
+      }
     },
     {
-      title: "标签",
-      key: "tags",
-      dataIndex: "tags",
-      render: (_, { tags }) => (
-        <>
-          {tags.map(tag => {
-            let color = tag.length > 5 ? "geekblue" : "green"
-            if (tag === "loser") {
-              color = "volcano"
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            )
-          })}
-        </>
-      )
+      title: "权限标识",
+      dataIndex: "menuCode",
+      key: "menuCode"
+    },
+    {
+      title: "路由地址",
+      dataIndex: "path",
+      key: "path"
+    },
+    {
+      title: "组件名称",
+      dataIndex: "component",
+      key: "component"
+    },
+    {
+      title: "创建时间",
+      dataIndex: "createTime",
+      key: "createTime",
+      render(createTime) {
+        return formatDate(createTime)
+      }
     },
     {
       title: "操作",
       key: "action",
-      render: (_, record) => (
-        <Space size='middle'>
-          <a>编辑</a>
-          <Popconfirm
-            title='Delete the task'
-            description='Are you sure to delete this task?'
-            okText='Yes'
-            cancelText='No'
-            onConfirm={() => handleDelete()}
-          >
-            <a>删除</a>
-          </Popconfirm>
-        </Space>
-      )
+      width: 200,
+      render(_, record) {
+        return (
+          <Space>
+            <Button type='text' onClick={() => handleSubCreate(record)}>
+              新增
+            </Button>
+            <Button type='text' onClick={() => handleEdit(record)}>
+              编辑
+            </Button>
+            <Button type='text' danger onClick={() => handleDelete(record)}>
+              删除
+            </Button>
+          </Space>
+        )
+      }
     }
   ]
 
@@ -158,7 +151,7 @@ const Component: FC<IProps> = props => {
         }}
         tableActions={tableActions}
       >
-        <Table<DataType> rowKey='email' columns={columns} {...tableProps} />
+        <Table<System.IMenuItem> bordered rowKey='_id' columns={columns} {...tableProps} />
       </PageTable>
     </div>
   )

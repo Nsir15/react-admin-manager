@@ -37,7 +37,7 @@ const Component: FC<PropsWithChildren<IProps>> = props => {
             case "select": {
               return (
                 <Form.Item label={field.label} name={field.name} rules={field.rules}>
-                  <Select placeholder={field.placeholder}>
+                  <Select style={{ width: 120 }} placeholder={field.placeholder}>
                     {field.options?.map(option => (
                       <Select.Option key={option.value} value={option.value}>
                         {option.label}

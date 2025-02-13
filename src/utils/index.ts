@@ -2,6 +2,8 @@
  * 工具函数
  */
 
+import dayjs from "dayjs"
+
 /**
  * 格式化数字为人民币格式的字符串
  *
@@ -28,4 +30,10 @@ export async function wrapperRequest<T, U = any>(request: Promise<T>): Promise<[
   } catch (error) {
     return [error as U, null]
   }
+}
+
+export function formatDate(date: Date | string, fmt = "YYYY-MM-DD HH:mm:ss") {
+  if (!date) return ""
+  const curDate = dayjs(date)
+  return curDate.format(fmt)
 }

@@ -49,11 +49,11 @@ export namespace System {
     component?: string // 组件名称
   }
 
-  export interface MenuItem extends CreateMenuParams {
+  export interface IMenuItem extends CreateMenuParams {
     _id: string
     createTime: string
-    buttons?: MenuItem[]
-    children?: MenuItem[]
+    buttons?: IMenuItem[]
+    children?: IMenuItem[]
   }
 }
 

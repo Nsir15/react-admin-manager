@@ -9,7 +9,10 @@ export const handlers = [
     return HttpResponse.json({
       code: 200,
       message: "success",
-      data: menuList
+      data: {
+        list: menuList,
+        total: 10
+      }
     })
   })
   // 处理 POST 请求示例
