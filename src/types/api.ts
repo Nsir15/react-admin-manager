@@ -2,6 +2,15 @@
  * 接口类型定义
  */
 
+export interface ResultData<T = any> {
+  list: T[]
+  page: {
+    pageNum: number
+    pageSize: number
+    total: number | 0
+  }
+}
+
 export namespace Login {
   export interface LoginParams {
     username: string
@@ -36,6 +45,8 @@ export namespace System {
   export interface MenuSearchParams {
     menuName?: string
     menuState?: number
+    current: number
+    pageSize: number
   }
 
   export interface CreateMenuParams {

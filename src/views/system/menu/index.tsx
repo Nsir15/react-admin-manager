@@ -3,9 +3,9 @@ import { ISearchFormItem } from "@/components/SearchForm"
 import { Form, Space, Table, TableProps, Button } from "antd"
 import { useAntdTable } from "ahooks"
 import { System, TableResult } from "@/types/api"
-import request from "@/utils/request"
 import PageTable, { ITableAction } from "@/components/PageTable"
 import { formatDate } from "@/utils"
+import { getMenuList } from "@/api"
 
 interface IProps {}
 
@@ -41,10 +41,15 @@ const Component: FC<IProps> = props => {
     { current, pageSize }: { current: number; pageSize: number },
     formData: Object
   ): Promise<TableResult<System.IMenuItem>> => {
-    return request.get("/sys/menu/list", {
+    return getMenuList({
       current,
       pageSize,
       ...formData
+    }).then(res => {
+      return {
+        list: res.list,
+        total: res.page.total
+      }
     })
   }
 

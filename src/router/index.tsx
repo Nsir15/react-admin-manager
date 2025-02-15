@@ -2,8 +2,9 @@ import { createBrowserRouter, Navigate, RouteObject } from "react-router-dom"
 import Login from "@/views/Login/Login"
 import NotFound404 from "@/views/NotFound404/404"
 import Layout from "@/layout"
-import User from "@/views/system/user"
-import Menu from "@/views/system/menu"
+import AuthLoader from "./AuthLoader"
+import LazyLoader from "@/components/LazyLoader"
+import React from "react"
 
 const routes: RouteObject[] = [
   {
@@ -11,6 +12,8 @@ const routes: RouteObject[] = [
     element: <Navigate to={"/welcome"}></Navigate>
   },
   {
+    id: "layout",
+    loader: AuthLoader,
     element: <Layout></Layout>,
     children: [
       {
@@ -18,12 +21,16 @@ const routes: RouteObject[] = [
         element: <div>Welcome</div>
       },
       {
+        path: "dashboard",
+        element: <div>dashboard</div>
+      },
+      {
         path: "userList",
-        element: <User />
+        element: LazyLoader(React.lazy(() => import("@/views/system/user")))
       },
       {
         path: "menuList",
-        element: <Menu />
+        element: LazyLoader(React.lazy(() => import("@/views/system/menu")))
       }
     ]
   },
@@ -42,6 +49,7 @@ const routes: RouteObject[] = [
 ]
 
 export default createBrowserRouter(routes)
+
 // export default function Router() {
 //   return useRoutes(routes)
 // }

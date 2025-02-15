@@ -37,3 +37,16 @@ export function formatDate(date: Date | string, fmt = "YYYY-MM-DD HH:mm:ss") {
   const curDate = dayjs(date)
   return curDate.format(fmt)
 }
+
+/**
+ * 延迟多少秒
+ * @param time
+ * @returns
+ */
+export function delayTime(time: number) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve("")
+    }, time)
+  })
+}

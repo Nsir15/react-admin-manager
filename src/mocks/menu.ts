@@ -788,7 +788,7 @@ export const menuList = [
   }
 ]
 
-export const usePermission = {
+export const userPermission = {
   menuList: [
     {
       _id: "655db45ff10762608048caec",

@@ -1,0 +1,6 @@
+/* font color */
+$normalFontColor: #000;
+
+.root {
+  --normalFontColor: #{$normalFontColor};
+}
