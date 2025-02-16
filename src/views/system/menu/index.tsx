@@ -60,6 +60,7 @@ const Component: FC<IProps> = props => {
     {
       title: "新增",
       type: "primary",
+      auth: "menu@create",
       onClick: handleCreate
     },
     {
@@ -147,6 +148,7 @@ const Component: FC<IProps> = props => {
   return (
     <div>
       <PageTable
+        title='菜单列表'
         searchFormProps={{
           form,
           searchFields,
