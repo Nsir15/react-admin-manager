@@ -5,6 +5,7 @@
 import { IRouteObj } from "@/router"
 import dayjs from "dayjs"
 import { message } from "./AntdGlobal"
+import { System } from "@/types/api"
 
 /**
  * 格式化数字为人民币格式的字符串
@@ -65,4 +66,17 @@ export function findRoute(pathname: string, routes: IRouteObj[]) {
     if (route.children && route.children.length) return findRoute(pathname, route.children)
   }
   return null
+}
+
+export function findTreePath(pathname: string, menuList: System.IMenuItem[], pathList: string[]) {
+  if (!menuList) return []
+  for (const menu of menuList) {
+    pathList.push(menu.menuName)
+    if (menu.path === pathname) return pathList
+    if (!menu.buttons && menu.children && menu.children.length) {
+      return findTreePath(pathname, menu.children, pathList)
+    }
+    pathList.pop()
+  }
+  return []
 }

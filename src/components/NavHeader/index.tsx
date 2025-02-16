@@ -1,9 +1,10 @@
 import { FC, memo } from "react"
 import styles from "./index.module.scss"
-import { Breadcrumb, Dropdown, MenuProps, Space, Switch } from "antd"
+import { Dropdown, MenuProps, Space, Switch } from "antd"
 import useStore from "@/store"
 import { DownOutlined, MenuFoldOutlined, MenuUnfoldOutlined, SettingOutlined } from "@ant-design/icons"
 import { useShallow } from "zustand/shallow"
+import BreadCrumb from "./BreadCrumb"
 
 interface IProps {}
 const Component: FC<IProps> = props => {
@@ -54,16 +55,7 @@ const Component: FC<IProps> = props => {
         >
           {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
         </div>
-        <Breadcrumb
-          items={[
-            {
-              title: <a href=''>首页</a>
-            },
-            {
-              title: "工作台"
-            }
-          ]}
-        />
+        <BreadCrumb />
       </div>
       <div className={styles.right}>
         <Switch checkedChildren='暗黑' unCheckedChildren='默认' defaultChecked style={{ marginRight: 10 }} />
