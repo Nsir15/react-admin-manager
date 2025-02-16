@@ -1,9 +1,31 @@
 /* font color */
 $normalFontColor: #000;
-$normalBgColor: #fff;
+$darkFontColor: #fff;
+$normalHomeBgColor: #f0f2f5;
 
-.root {
-  --normalFontColor: #{$normalFontColor};
-  --normalBgColor: #{$normalBgColor};
-  --normalContentBgColor: #fff;
+/* 背景色 */
+$normalBgColor: #fff;
+$darkBgColor: #1a1a1a;
+$darkHomeBgColor: #000;
+
+:root {
+  --FontColor: #{$normalFontColor};
+  --BgColor: #{$normalBgColor};
+  --HomeBgColor: #{$normalHomeBgColor};
+}
+
+html.dark,
+body.dark {
+  --FontColor: #{$darkFontColor};
+  --BgColor: #{$darkBgColor};
+  --HomeBgColor: #{$darkHomeBgColor};
+}
+
+// 添加全局样式应用
+body {
+  color: var(--FontColor);
+  background-color: var(--BgColor);
+  transition:
+    color 0.3s,
+    background-color 0.3s; // 添加过渡效果使切换更平滑
 }

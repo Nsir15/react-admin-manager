@@ -20,13 +20,13 @@
 }
 
 .searchForm {
-  background-color: #fff;
+  background-color: var(--BgColor);
   padding: 20px;
   border-radius: 5px;
   color: #000;
 
   & + .baseTable {
-    background-color: #fff;
+    background-color: var(--BgColor);
     margin-top: 20px;
     border-radius: 5px;
 
@@ -35,7 +35,7 @@
       justify-content: space-between;
       align-items: center;
       border-radius: 5px 5px 0 0;
-      color: var(--dark-color);
+      color: var(--FontColor);
       padding: 15px;
       .table-actions button {
         margin-left: 15px;

@@ -7,19 +7,23 @@ import { useShallow } from "zustand/shallow"
 import BreadCrumb from "./BreadCrumb"
 
 interface IProps {}
-const Component: FC<IProps> = props => {
-  // const {} = props
-  const { collapsed, updateCollapsed } = useStore(
+const Component: FC<IProps> = () => {
+  const { collapsed, updateCollapsed, theme, updateTheme, nickName } = useStore(
     useShallow(state => ({
       collapsed: state.collapsed,
-      updateCollapsed: state.updateCollapsed
+      updateCollapsed: state.updateCollapsed,
+      theme: state.theme,
+      updateTheme: state.updateTheme,
+      nickName: state.userInfo.nickName
     }))
   )
+
+  const isDark = theme === "dark"
 
   const items: MenuProps["items"] = [
     {
       key: "1",
-      label: "My Account",
+      label: "我的账号",
       disabled: true
     },
     {
@@ -38,6 +42,17 @@ const Component: FC<IProps> = props => {
       extra: "⌘B"
     }
   ]
+
+  function handleSwitchChange(isDark: boolean) {
+    if (!isDark) {
+      // 默认
+      document.documentElement.classList.remove("dark")
+    } else {
+      // 暗黑
+      document.documentElement.classList.add("dark")
+    }
+    updateTheme(isDark)
+  }
 
   return (
     <div className={styles.navHeader}>
@@ -58,11 +73,17 @@ const Component: FC<IProps> = props => {
         <BreadCrumb />
       </div>
       <div className={styles.right}>
-        <Switch checkedChildren='暗黑' unCheckedChildren='默认' defaultChecked style={{ marginRight: 10 }} />
+        <Switch
+          checked={isDark}
+          checkedChildren='暗黑'
+          unCheckedChildren='默认'
+          style={{ marginRight: 10 }}
+          onChange={handleSwitchChange}
+        />
         <Dropdown menu={{ items }}>
           <a onClick={e => e.preventDefault()}>
             <Space>
-              Jack Ma
+              {nickName}
               <DownOutlined />
             </Space>
           </a>
