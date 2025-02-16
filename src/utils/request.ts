@@ -72,14 +72,14 @@ instance.interceptors.response.use(
   }
 )
 
-const get = <T>(
+const get = <T = any>(
   url: string,
-  params: Record<string, any>,
+  params?: Record<string, any>,
   options: IConfig = { showLoading: true, showError: false }
 ): Promise<T> => {
   return instance.get(url, { params, ...options })
 }
-const post = <T>(
+const post = <T = any>(
   url: string,
   params: Record<string, any>,
   options: IConfig = { showLoading: true, showError: false }

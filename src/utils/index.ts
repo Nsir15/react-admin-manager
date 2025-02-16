@@ -2,7 +2,9 @@
  * 工具函数
  */
 
+import { IRouteObj } from "@/router"
 import dayjs from "dayjs"
+import { message } from "./AntdGlobal"
 
 /**
  * 格式化数字为人民币格式的字符串
@@ -23,11 +25,17 @@ export function formatMoneyNumber(number: number | string) {
   return "¥" + parts.join(".")
 }
 
-export async function wrapperRequest<T, U = any>(request: Promise<T>): Promise<[U | null, T | null]> {
+export async function wrapperRequest<T, U = any>(
+  request: Promise<T>,
+  showError: boolean = true
+): Promise<[U | null, T | null]> {
   try {
     const data = await request
     return [null, data]
   } catch (error) {
+    // if (showError) {
+    //   message.error(error)
+    // }
     return [error as U, null]
   }
 }
@@ -49,4 +57,12 @@ export function delayTime(time: number) {
       resolve("")
     }, time)
   })
+}
+
+export function findRoute(pathname: string, routes: IRouteObj[]) {
+  for (const route of routes) {
+    if (route.path === pathname) return route
+    if (route.children && route.children.length) return findRoute(pathname, route.children)
+  }
+  return null
 }

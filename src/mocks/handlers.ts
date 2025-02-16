@@ -1,6 +1,7 @@
 import { http, HttpResponse } from "msw"
 import { menuList, userPermission } from "./menu"
 import envConfig from "@/config"
+import { userInfo } from "./users"
 
 /**
  * 获取全量的路径 ，项目中使用的是 axios 请求，默认配置了 baseUrl 是 http://localhost:3000 ,所以要想拦截到，这里就得拼接上域名，使用正则，可以匹配到 请求后面带参数情况
@@ -39,6 +40,16 @@ export const handlers = [
         status: 200
       }
     )
+  }),
+
+  // 获取用户信息
+  http.get("http://localhost:3000/users/getUserInfo", ({ request }) => {
+    console.log("Request intercepted by MSW--------:", request.url)
+    return HttpResponse.json({
+      code: 200,
+      message: "success",
+      data: userInfo
+    })
   })
 
   // 处理 POST 请求示例

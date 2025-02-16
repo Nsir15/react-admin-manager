@@ -46,7 +46,7 @@ const Component: FC<IProps> = () => {
     setSelectedKeys([location.pathname])
   }, [])
 
-  const handleClickMenu = ({ item, key, keyPath, domEvent }) => {
+  const handleClickMenu = ({ key }: { key: string }) => {
     if (location.pathname === key) return
     setSelectedKeys([key])
     navigate(key)

@@ -14,3 +14,7 @@ export const getMenuList = (params: System.MenuSearchParams) => {
 export const getPermissionList = () => {
   return request.get<{ buttonList: string[]; menuList: System.IMenuItem[] }>("/users/getPermissionList", {})
 }
+
+export const getUserInfo = () => {
+  return request.get("/users/getUserInfo")
+}

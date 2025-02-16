@@ -5,8 +5,12 @@ import Layout from "@/layout"
 import AuthLoader from "./AuthLoader"
 import LazyLoader from "@/components/LazyLoader"
 import React from "react"
+import NoPermission403 from "@/views/NoPermission403"
 
-const routes: RouteObject[] = [
+type RouteMetaObj = Record<string, any>
+export type IRouteObj = RouteObject & RouteMetaObj
+
+export const routes: IRouteObj[] = [
   {
     path: "/",
     element: <Navigate to={"/welcome"}></Navigate>
@@ -17,19 +21,19 @@ const routes: RouteObject[] = [
     element: <Layout></Layout>,
     children: [
       {
-        path: "welcome",
+        path: "/welcome",
         element: <div>Welcome</div>
       },
       {
-        path: "dashboard",
+        path: "/dashboard",
         element: <div>dashboard</div>
       },
       {
-        path: "userList",
+        path: "/userList",
         element: LazyLoader(React.lazy(() => import("@/views/system/user")))
       },
       {
-        path: "menuList",
+        path: "/menuList",
         element: LazyLoader(React.lazy(() => import("@/views/system/menu")))
       }
     ]
@@ -43,8 +47,12 @@ const routes: RouteObject[] = [
     element: <Navigate to={"/404"} />
   },
   {
-    path: "404",
+    path: "/404",
     element: <NotFound404 />
+  },
+  {
+    path: "/403",
+    element: <NoPermission403 />
   }
 ]
 
