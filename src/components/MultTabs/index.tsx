@@ -1,5 +1,5 @@
 import { Tabs, TabsProps } from "antd"
-import React, { FC, memo, useEffect, useState } from "react"
+import { FC, memo, useEffect, useState } from "react"
 import styles from "./index.module.scss"
 import { useLocation, useNavigate, useRouteLoaderData } from "react-router-dom"
 import { findRoute } from "@/utils"

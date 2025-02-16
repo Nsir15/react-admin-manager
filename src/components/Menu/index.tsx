@@ -44,7 +44,7 @@ const Component: FC<IProps> = () => {
 
   useEffect(() => {
     setSelectedKeys([location.pathname])
-  }, [])
+  }, [location.pathname])
 
   const handleClickMenu = ({ key }: { key: string }) => {
     if (location.pathname === key) return
