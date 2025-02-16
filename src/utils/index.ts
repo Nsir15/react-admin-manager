@@ -60,10 +60,17 @@ export function delayTime(time: number) {
   })
 }
 
-export function findRoute(pathname: string, routes: IRouteObj[]) {
+export function findRoute(
+  pathname: string,
+  routes: IRouteObj[] | System.IMenuItem[]
+): IRouteObj | System.IMenuItem | null {
   for (const route of routes) {
     if (route.path === pathname) return route
-    if (route.children && route.children.length) return findRoute(pathname, route.children)
+    if (route.children && route.children.length) {
+      const result = findRoute(pathname, route.children)
+      // 有了结果再 return，不然 for循环就中断了
+      if (result) return result
+    }
   }
   return null
 }

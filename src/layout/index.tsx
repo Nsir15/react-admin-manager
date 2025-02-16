@@ -12,6 +12,7 @@ import { findRoute, wrapperRequest } from "@/utils"
 import { routes } from "@/router"
 import { getUserInfo } from "@/api"
 import { useShallow } from "zustand/shallow"
+import MultTabs from "@/components/MultTabs"
 
 const { Sider } = Layout
 
@@ -58,6 +59,7 @@ const App: React.FC = () => {
         </Sider>
         <Layout>
           <NavHeader />
+          <MultTabs />
           <div className={styles.contentWrapper}>
             <div className={styles.content}>
               <div className={styles.contentBody}>
