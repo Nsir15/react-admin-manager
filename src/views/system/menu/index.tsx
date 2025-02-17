@@ -6,6 +6,7 @@ import { System, TableResult } from "@/types/api"
 import PageTable, { ITableAction } from "@/components/PageTable"
 import { formatDate } from "@/utils"
 import { getMenuList } from "@/api"
+import PageTransition from "@/components/PageTransition"
 
 interface IProps {}
 
@@ -146,7 +147,7 @@ const Component: FC<IProps> = props => {
   })
 
   return (
-    <div>
+    <PageTransition>
       <PageTable
         title='菜单列表'
         searchFormProps={{
@@ -160,7 +161,7 @@ const Component: FC<IProps> = props => {
       >
         <Table<System.IMenuItem> bordered rowKey='_id' columns={columns} {...tableProps} />
       </PageTable>
-    </div>
+    </PageTransition>
   )
 }
 

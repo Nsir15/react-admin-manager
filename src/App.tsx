@@ -1,5 +1,6 @@
 import { RouterProvider } from "react-router-dom"
 import { ConfigProvider, App as AntdApp, theme } from "antd"
+import { AnimatePresence } from "framer-motion"
 import AntdGlobal from "./utils/AntdGlobal"
 import router from "./router"
 import "@/styles/theme.scss"
@@ -30,7 +31,9 @@ function App() {
         {/* <BrowserRouter>
           <Router></Router>
         </BrowserRouter> */}
-        <RouterProvider router={router}></RouterProvider>
+        <AnimatePresence mode='wait'>
+          <RouterProvider router={router}></RouterProvider>
+        </AnimatePresence>
       </AntdApp>
     </ConfigProvider>
   )
