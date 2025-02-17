@@ -147,21 +147,19 @@ const Component: FC<IProps> = props => {
   })
 
   return (
-    <PageTransition>
-      <PageTable
-        title='菜单列表'
-        searchFormProps={{
-          form,
-          searchFields,
-          formInitialValues: {},
-          onReset: search.reset,
-          onSubmit: search.submit
-        }}
-        tableActions={tableActions}
-      >
-        <Table<System.IMenuItem> bordered rowKey='_id' columns={columns} {...tableProps} />
-      </PageTable>
-    </PageTransition>
+    <PageTable
+      title='菜单列表'
+      searchFormProps={{
+        form,
+        searchFields,
+        formInitialValues: {},
+        onReset: search.reset,
+        onSubmit: search.submit
+      }}
+      tableActions={tableActions}
+    >
+      <Table<System.IMenuItem> bordered rowKey='_id' columns={columns} {...tableProps} />
+    </PageTable>
   )
 }
 

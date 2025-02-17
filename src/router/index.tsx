@@ -6,6 +6,7 @@ import AuthLoader from "./AuthLoader"
 import LazyLoader from "@/components/LazyLoader"
 import React from "react"
 import NoPermission403 from "@/views/NoPermission403"
+import PageTransitionRouteWrapper from "@/components/PageTransitionRouteWrapper"
 
 type RouteMetaObj = {
   auth?: boolean
@@ -35,23 +36,28 @@ export const routes: IRouteObj[] = [
     element: <Layout></Layout>,
     children: [
       {
-        path: "/welcome",
-        name: "欢迎页",
-        element: <div>Welcome</div>
-      },
-      {
-        path: "/dashboard",
-        element: <div>dashboard</div>
-      },
-      {
-        path: "/userList",
-        name: "用户管理",
-        element: LazyLoader(React.lazy(() => import("@/views/system/user")))
-      },
-      {
-        path: "/menuList",
-        name: "菜单管理",
-        element: LazyLoader(React.lazy(() => import("@/views/system/menu")))
+        element: <PageTransitionRouteWrapper />,
+        children: [
+          {
+            path: "/welcome",
+            name: "欢迎页",
+            element: <div>Welcome</div>
+          },
+          {
+            path: "/dashboard",
+            element: <div>dashboard</div>
+          },
+          {
+            path: "/userList",
+            name: "用户管理",
+            element: LazyLoader(React.lazy(() => import("@/views/system/user")))
+          },
+          {
+            path: "/menuList",
+            name: "菜单管理",
+            element: LazyLoader(React.lazy(() => import("@/views/system/menu")))
+          }
+        ]
       }
     ]
   },

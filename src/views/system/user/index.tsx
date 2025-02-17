@@ -118,35 +118,33 @@ const Component: FC<IProps> = props => {
   }, [])
 
   return (
-    <PageTransition>
-      <div className={styles.userList}>
-        <div className={"searchForm"}>
-          <SearchForm form={form} initialValues={{}}>
-            <Form.Item label='Field A'>
-              <Input placeholder='input placeholder' />
-            </Form.Item>
-            <Form.Item label='Field B'>
-              <Input placeholder='input placeholder' />
-            </Form.Item>
-          </SearchForm>
-        </div>
-        <div className='baseTable'>
-          <div className='tableHeader'>
-            <div className='table-title'>用户列表</div>
-            <div className='table-actions'>
-              <Button type='primary' onClick={handleCreate}>
-                新增
-              </Button>
-              <Button type='primary' danger>
-                批量删除
-              </Button>
-            </div>
-          </div>
-          <Table<DataType> columns={columns} dataSource={data} />
-        </div>
-        <CreateUser ref={modalRef} />
+    <div className={styles.userList}>
+      <div className={"searchForm"}>
+        <SearchForm form={form} initialValues={{}}>
+          <Form.Item label='Field A'>
+            <Input placeholder='input placeholder' />
+          </Form.Item>
+          <Form.Item label='Field B'>
+            <Input placeholder='input placeholder' />
+          </Form.Item>
+        </SearchForm>
       </div>
-    </PageTransition>
+      <div className='baseTable'>
+        <div className='tableHeader'>
+          <div className='table-title'>用户列表</div>
+          <div className='table-actions'>
+            <Button type='primary' onClick={handleCreate}>
+              新增
+            </Button>
+            <Button type='primary' danger>
+              批量删除
+            </Button>
+          </div>
+        </div>
+        <Table<DataType> columns={columns} dataSource={data} />
+      </div>
+      <CreateUser ref={modalRef} />
+    </div>
   )
 }
 
